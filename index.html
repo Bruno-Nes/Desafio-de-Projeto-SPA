@@ -13,7 +13,7 @@
            <img src="image/worker.svg" alt="Worker">
         </div>
         <div class="div-direita">
-            <div class="cartao-flutuante">
+            <div class="cartao-flutuante" id="cartao_login">
                 <h1>Log In</h1>
                 <form action="">
                     <div class="campo-de-texto">
@@ -25,11 +25,29 @@
                         <input type="password" name="Senha" id="senha" placeholder="Digite sua senha">
                         <label for="User" class="esq-pass">Esqueceu sua a senha?</label>
                     </div>
-                    <button type="submit" class="btn-login" id="login">LOG IN</button>
+                    <button type="submit" class="btn-submit" id="login">LOG IN</button>
                 </form>
-                <span>Novo aqui? <a href="">Cadastre-se</a></span>
+                <span>Novo aqui? <a href="#" id="mudar_para_cadastro">Cadastre-se</a></span>
+            </div>
+            <!--Na mesma página terá o login e o cadastro-->
+            <div class="cartao-flutuante" id="cartao_cadastro" style="display: none;">
+                <h1>Cadastro</h1>
+                <form action="">
+                    <div class="campo-de-texto">
+                        <label for="User" id="label">Digite seu e-mail</label>
+                        <input type="email" name="E-mail" placeholder="Digite o e-mail" required>
+                    </div>
+                    <div class="campo-de-texto">
+                        <label for="User">Digite sua senha</label>
+                        <input type="password" name="Senha" placeholder="Digite sua senha">
+                        <!--Colocar um campo para confirmação de senha-->
+                    </div>
+                    <button type="submit" class="btn-submit" id="cadastrar">CADASTRAR</button>
+                </form>
+                <span>Velho aqui? <a href="#" id="mudar_para_login">Faça o login</a></span>
             </div>
         </div>
     </div>
+    <script src="js/index.js"></script>
 </body>
 </html>
