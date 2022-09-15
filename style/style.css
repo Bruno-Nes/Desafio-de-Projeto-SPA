@@ -79,7 +79,7 @@ body {
 }
 
 .campo-de-texto > input::placeholder {
-    font-size: 10pt;
+    font-size: 7pt;
     color: #79DAE8;
 }
 
@@ -90,6 +90,20 @@ body {
 
 .campo-de-texto .esq-pass {
     font-size: 9pt;
+}
+
+.redes-sociais{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.redes-sociais img {
+    width: 45px;
+    size: 25px;
+    margin: 15px;
+    cursor: pointer;
+    border-radius: 50%;
 }
 
 .btn-submit {
