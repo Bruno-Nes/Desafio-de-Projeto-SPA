@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário SPA</title>
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/alert.css">
 </head>
 <body>
     <div class="div-principal">
@@ -13,6 +14,15 @@
            <img src="assets/worker.svg" alt="Worker">
         </div>
         <div class="div-direita">
+
+            <section id="alertId" class="alert hide">
+                <span class="fas fa-exclamation-circle"></span>
+                <span id="msg"></span>
+                <span class="close-btn">
+                    <span class="fas fa-times"></span>
+                </span>
+            </section>
+
             <div class="cartao-flutuante" id="cartao_login">
                 <h1>Log In</h1>
                 <form action="">
@@ -21,45 +31,88 @@
                         <input type="email" name="E-mail" id="e-mail_login" placeholder="Digite o e-mail" required>
                     </div>
                     <div class="campo-de-texto">
-                        <label for="User">Digite sua senha</label>
-                        <input type="password" name="Senha" id="senha_login" placeholder="Digite sua senha">
-                        <label for="User" class="esq-pass">Esqueceu sua a senha?</label>
+                        <label for="User">Digite sua senha</label>                        
+                        <input type="password" class="input-senha" name="Senha" id="senha_login" placeholder="Digite sua senha">                
+                        <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                        <label for="User" class="esq-pass"><a href="#">Esqueceu sua a senha?</a></label>
                     </div>
                     <button type="submit" class="btn-submit" id="login">LOG IN</button>
                 </form>
                 <span>Novo aqui? <a href="#" id="mudar_para_cadastro">Cadastre-se</a></span>
             </div>
             <!--Na mesma página terá o login e o cadastro-->
-
+            <!--Tela de esquecer a senha-->
+            <div class="cartao-flutuante" style="display: none;">
+            </div>
             <!--CADASTRO-->
             <div class="cartao-flutuante" id="cartao_cadastro" style="display: none;">
                 <h1>Cadastro</h1>
                 <form action="">
                     <div class="campo-de-texto">
-                        <label for="User">Digite seu nome</label>
+                        <label for="User" id="user_label">Digite seu nome</label>
                         <input type="text" id="nome_cadastro" placeholder="Digite seu nome" required>
                     </div>
                     <div class="campo-de-texto">
-                        <label for="User" id="label">Digite seu e-mail</label>
+                        <label for="User" id="label_Email">Digite seu e-mail</label>
                         <input type="email" name="E-mail" id="e-mail_cadastro" placeholder="Digite o e-mail" required>
                     </div>
                     <div class="campo-de-texto">
-                        <label for="User">Digite sua senha</label>
-                        <input type="password" name="Senha" id="senha_cadastro" placeholder="Digite sua senha">
-                        <label for="User">Confirme sua senha</label>
-                        <input type="password" name="Senha" id="senha_cadastro" placeholder="Confirme sua senha">
-                    </div>
+                        <div class="campo-de-texto senha-cad">
+                            <label for="User" id="senha_cadastro_label">Digite sua senha</label>
+                            <input type="password" class="input-senha" name="Senha" id="senha_cadastro" placeholder="Digite sua senha">
+                            <i class="fa-solid fa-eye" id="verSenha" aria-hidden="true"></i>
+                        </div>
+                        <div id="message">
+                            <li id="letter" class="invalid">
+                                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle id="circleLetter" cx="4" cy="4" r="4" fill="red" fill-opacity="1.0"></circle>
+                                </svg>
+                                Uma letra <b>minúscula</b>
+                            </li>
+                            <li id="capital" class="invalid">
+                                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle id="circleCapital" cx="4" cy="4" r="4" fill="red" fill-opacity="1.0"></circle>
+                                </svg>
+                                Uma letra <b>maiúscula</b>
+                            </li>
+                            <li id="number" class="invalid">
+                                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle id="circleNumber" cx="4" cy="4" r="4" fill="red" fill-opacity="1.0"></circle>
+                                </svg>
+                                Um <b>numero</b>
+                            </li>
+                            <li id="length" class="invalid">
+                                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle id="circleLength" cx="4" cy="4" r="4" fill="red" fill-opacity="1.0"></circle>
+                                </svg>
+                                Mínimo <b>8 caracteres</b>
+                            </li>
+                            <li id="charters" class="invalid">
+                                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle id="circleCharters" cx="4" cy="4" r="4" fill="red" fill-opacity="1.0"></circle>
+                                </svg>
+                                Um caractere especial<b> @ # $</b>
+                            </li>                                            
+                          </div>
+                        <div class="campo-de-texto senha-cad">
+                            <label for="User" id="confirma_senha_cadastro_label">Confirme sua senha</label>
+                            <input type="password" class="input-senha-conf" name="Senha" id="confirma_senha_cadastro" placeholder="Confirme sua senha">                        
+                            <i class="fa-solid fa-eye" id="verConfirmarSenha" aria-hidden="true"></i>                            
+                        </div>
+                    </div>                
                     <div class="redes-sociais">
                         <img src="assets/facebook.png" alt="Imagem facebook">
                         <img src="assets/google.png" alt="Imagem google">
                         <img src="assets/linkedin.png" alt="Imagem linkedin">
                     </div>
                     <button type="submit" class="btn-submit" id="cadastrar">CADASTRAR</button>
+                    
                 </form>
                 <span>Velho aqui? <a href="#" id="mudar_para_login">Faça o login</a></span>
             </div>
         </div>
     </div>
     <script src="js/index.js"></script>
+    <script src="https://kit.fontawesome.com/c87642c98d.js" crossorigin="anonymous"></script>
 </body>
 </html>
