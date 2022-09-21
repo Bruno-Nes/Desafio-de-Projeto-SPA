@@ -45,6 +45,9 @@ let number = document.getElementById("number");
 let length = document.getElementById("length");
 let characters = document.getElementById("charters")
 
+//label esquceu a senha
+let esqueceuSenha = document.getElementById("esqueceuSenha")
+
 // Estrutura de dados para armazenar as informações dos usuários
 let bancoDeUsuarios = [];
 
@@ -261,6 +264,21 @@ document.getElementById("cadastrar").onclick = function(e) {
 
 // Campo cadastro finalizada
 //Campo login
+
+esqueceuSenha.onclick = function() {
+    document.querySelector(".esqueceu-senha").style.display = "flex";
+    document.querySelector(".esqueceu-senha").style.animation = "fromTop .6s 0.1s backwards"
+    cadastro.style.display = "none";
+    login.style.display = "none";
+    document.querySelector(".div-esquerda").style.display = "none";
+}
+
+document.getElementById("sair_esqueceu_senha").onclick =  function() {
+    login.style.display = "flex"
+    document.querySelector(".esqueceu-senha").style.display = "none";
+    document.querySelector(".div-esquerda").style.display = "flex";
+}
+
 document.getElementById("login").onclick = function(e) {
     e.preventDefault();
 

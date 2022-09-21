@@ -10,9 +10,27 @@
 </head>
 <body>
     <div class="div-principal">
+        <!--div de imagem-->
         <div class="div-esquerda">
            <img src="assets/worker.svg" alt="Worker">
         </div>
+
+        <!--"Tela" de esqueceu a senha-->
+        <main class="esqueceu-senha" style="display: none;">
+            <div>
+                <h1>
+                    Mantenha a calma... <br> Essa funcionalidade ainda está em desenvolvimento. 
+                    <a href="#" id="sair_esqueceu_senha">
+                        <br>Voltar para o Login
+                    </a>
+                </h1>
+    
+                <img src="assets/developer.svg" alt="Developer">
+            </div>
+        </main>
+
+
+        <!--div de login e cadastro-->
         <div class="div-direita">
 
             <section id="alertId" class="alert hide">
@@ -34,16 +52,13 @@
                         <label for="User">Digite sua senha</label>                        
                         <input type="password" class="input-senha" name="Senha" id="senha_login" placeholder="Digite sua senha">                
                         <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                        <label for="User" class="esq-pass"><a href="#">Esqueceu sua a senha?</a></label>
+                        <label for="User" class="esq-pass" id="esqueceuSenha"><a href="#">Esqueceu sua a senha?</a></label>
                     </div>
                     <button type="submit" class="btn-submit" id="login">LOG IN</button>
                 </form>
                 <span>Novo aqui? <a href="#" id="mudar_para_cadastro">Cadastre-se</a></span>
             </div>
-            <!--Na mesma página terá o login e o cadastro-->
-            <!--Tela de esquecer a senha-->
-            <div class="cartao-flutuante" style="display: none;">
-            </div>
+            <!--Na mesma página terá o login e o cadastro-->        
             <!--CADASTRO-->
             <div class="cartao-flutuante" id="cartao_cadastro" style="display: none;">
                 <h1>Cadastro</h1>
