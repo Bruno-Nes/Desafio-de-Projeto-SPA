@@ -49,7 +49,9 @@ let characters = document.getElementById("charters")
 let esqueceuSenha = document.getElementById("esqueceuSenha")
 
 // Estrutura de dados para armazenar as informações dos usuários
-let bancoDeUsuarios = new Map();
+let bancoDeUsuarios = [];
+
+const dadosUsuario = {}
 
 //Configuração do botão para ver senha
 btnPassView.addEventListener('click', () => {
@@ -243,22 +245,7 @@ document.getElementById("cadastrar").onclick = function(e) {
     if (!userValidPass.value.match(userPass.value)) {
         return false;
     }
-    
-
-    //Dados dos usuarios colocados individualmente
-    const dadosUsuario = {nomeUsuario : userName.value, 
-        emailUsuario : userMail.value, 
-        senhaUsuario : userPass.value}
-
-
-
-    //Estrutura map para armazenar nome, email e senha
-    bancoDeUsuarios.set(dadosUsuario[nomeUsuario], nomeUsuario.value)
-    //O array que vai receber os objetos
-    
-
-    //O array é o bancoDeUsuarios, onde o index será o email ou senha para fazer a validação de login
-    
+ 
 }
 
 // Campo cadastro finalizada
