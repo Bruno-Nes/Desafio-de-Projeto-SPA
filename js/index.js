@@ -49,7 +49,7 @@ let characters = document.getElementById("charters")
 let esqueceuSenha = document.getElementById("esqueceuSenha")
 
 // Estrutura de dados para armazenar as informações dos usuários
-let bancoDeUsuarios = [];
+let bancoDeUsuarios = new Map();
 
 //Configuração do botão para ver senha
 btnPassView.addEventListener('click', () => {
@@ -240,26 +240,25 @@ document.getElementById("cadastrar").onclick = function(e) {
         return false;
     }
 
-    if (!userValidPass.value.match(userPass.value)) 
+    if (!userValidPass.value.match(userPass.value)) {
         return false;
+    }
+    
 
-        //no lugar do Array, usar um map.
-        //para manipular um map usa um array
+    //Dados dos usuarios colocados individualmente
+    const dadosUsuario = {nomeUsuario : userName.value, 
+        emailUsuario : userMail.value, 
+        senhaUsuario : userPass.value}
 
-    /* Outra forma de fazer isso é criando uma lista que "recebe" um JSON(ainda não sei como funciona), e depois
-    da um push na lista colocando as infos, exemplo:*/
-    bancoDeUsuarios.push(
-        {
-            nomeUsuario : userName.value,
-            emailUsuario : userMail.value,
-            senhaUsuario : userPass.value 
-        }
-    )
-    /*Como criamos um registro no localStorage
-        Primeiro parâmetro e o nome do item no banco
-        Segundo parâmetro e o item*/
-   localStorage.setItem('bancoDeUsuarios', JSON.stringify(bancoDeUsuarios))
 
+
+    //Estrutura map para armazenar nome, email e senha
+    bancoDeUsuarios.set(dadosUsuario[nomeUsuario], nomeUsuario.value)
+    //O array que vai receber os objetos
+    
+
+    //O array é o bancoDeUsuarios, onde o index será o email ou senha para fazer a validação de login
+    
 }
 
 // Campo cadastro finalizada
@@ -296,6 +295,8 @@ document.getElementById("login").onclick = function(e) {
     }
 }
 
+
+// Funções 
 function mostrarAlerta(msg) {
     msgAlert.innerHTML = msg
         alertaPersonalizado.classList.remove('hide')
