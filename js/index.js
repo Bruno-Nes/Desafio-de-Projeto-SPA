@@ -49,9 +49,8 @@ let characters = document.getElementById("charters")
 let esqueceuSenha = document.getElementById("esqueceuSenha")
 
 // Estrutura de dados para armazenar as informações dos usuários
-let bancoDeUsuarios = [];
+let bancoDeUsuarios = []; //array onde terá todos os usuários cadastrados
 
-const dadosUsuario = {}
 
 //Configuração do botão para ver senha
 btnPassView.addEventListener('click', () => {
@@ -242,10 +241,30 @@ document.getElementById("cadastrar").onclick = function(e) {
         return false;
     }
 
-    if (!userValidPass.value.match(userPass.value)) {
+    if (userValidPass.value.match(userPass.value)) {
         return false;
     }
- 
+
+    var dadosUsuario = {nameUser : userName.value, 
+        emailUser : userMail.value, 
+        passUser : userPass.value}
+
+    bancoDeUsuarios[dadosUsuario.emailUser] = dadosUsuario
+
+    setTimeout(() => {   
+        userName.value = ""
+        userName.style.border = "none"
+        userMail.value = ""
+        userMail.style.border = "none"
+        userPass.value = ""
+        userPass.style.border = "none"
+        userValidPass.value = ""
+        userValidPass.style.border = "none"
+    }, 1000)
+
+
+
+    return true
 }
 
 // Campo cadastro finalizada
