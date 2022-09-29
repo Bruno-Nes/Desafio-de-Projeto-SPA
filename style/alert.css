@@ -15,6 +15,16 @@
     font-family: 'Poppins', sans-serif;
 }
 
+.alert.warningAlert{
+    background-color: #ff9b9b;
+    border-left: 8px solid #ff0000;
+}
+
+.alert.successAlert{
+    background-color: #75ff7c;
+    border-left: #00ff0d;
+}
+
 .alert.showAlert{
     opacity: 1;
     pointer-events: auto;
@@ -28,6 +38,19 @@
     animation: hide_slide 1s ease forwards;
 }
 
+.alert.warningAlert.showAlert{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.alert.warningAlert.show{
+    animation: show_slide 1s ease forwards;
+}
+.alert.warningAlert.hide{
+    opacity: 0;
+    animation: hide_slide 1s ease forwards;
+}
+
 .alert .fa-exclamation-circle {
     position: absolute;
     left: 20px;
@@ -37,10 +60,26 @@
     font-size: 30px;
 }
 
+.alert.warningAlert .fa-exclamation-circle{
+    color: #ce0000;
+}
+
+.alert.alert.successAlert .fa-exclamation-circle{
+    color: #03c50c;
+}
+
 .alert #msg{
     padding: 0 20px;
     font-size: 18px;
     color: #ce8500;
+}
+
+.alert.warningAlert #msg{
+    color: #ce0000;
+}
+
+.alert.successAlert #msg{
+    color: #03c50c;
 }
 
 .alert .close-btn{
@@ -53,14 +92,38 @@
     cursor: pointer;
 }
 
+.alert.warningAlert .close-btn{
+    background-color: #ff5f5f;
+}
+
+.alert.successAlert .close-btn {
+    background-color: #50ff59;
+}
+
 .close-btn:hover{
     background-color: #ffc766;
+}
+
+.alert.warningAlert .close-btn:hover{
+    background-color: #fd4e4e;
+}
+
+.alert.successAlert .close-btn:hover{
+    background-color: #38ff42;
 }
 
 .close-btn .fa-times{
     color: #ce8500;
     font-size: 22px;
     line-height: 40px;
+}
+
+.alert.warningAlert .close-btn .fa-times{
+    color: #ce0000;
+}
+
+.alert.successAlert .fa-times{
+    color: #03c50c;
 }
 
 @keyframes show_slide{

@@ -9,6 +9,10 @@ let closeIcon = document.querySelector('.close-btn')
 //Cartao do login
 let login = document.getElementById("cartao_login");
 
+//Inputs de login 
+let loginEmail = document.getElementById("e-mail_login")
+let loginPass = document.getElementById("senha_login")
+
 //Cartão do cadastro
 let cadastro = document.getElementById("cartao_cadastro");
 
@@ -45,10 +49,8 @@ let number = document.getElementById("number");
 let length = document.getElementById("length");
 let characters = document.getElementById("charters")
 
-//label esquceu a senha
 let esqueceuSenha = document.getElementById("esqueceuSenha")
 
-// Estrutura de dados para armazenar as informações dos usuários
 let bancoDeUsuarios = []; //array onde terá todos os usuários cadastrados
 
 
@@ -185,30 +187,25 @@ userValidPass.addEventListener('keyup', () => {
 })
 
 
-// página atual: Cadastro
-// página seguinte: Login
 document.getElementById("mudar_para_login").onclick = function() {
     login.style.animation = "fromTop .6s 0.1s backwards"
     cadastro.style.display = "none";
     login.style.display = "flex";
 }
 
-// página atual: Login
-// página seguinte: Cadastro
 document.getElementById("mudar_para_cadastro").onclick = function() {
     cadastro.style.animation = "fromTop .6s 0.1s backwards"
     cadastro.style.display = "flex"
     login.style.display = "none";
 }
 
-// Mostrar validação de senha
 
 //Area comentada temporariamente para finalizar os requisitos de senha 
 // Campo cadastro
 document.getElementById("cadastrar").onclick = function(e) {
     e.preventDefault();
 
-    if(!userName.value) {
+    if(!userName.value || userName.value == undefined) {
         let msg = "O campo de usuário deve ser preenchido" 
         mostrarAlerta(msg)
         return false;
@@ -241,16 +238,17 @@ document.getElementById("cadastrar").onclick = function(e) {
         return false;
     }
 
-    if (userValidPass.value.match(userPass.value)) {
+    if (userValidPass.value != userPass.value) {
         return false;
     }
 
-    var dadosUsuario = {nameUser : userName.value, 
+    let dadosUsuario = {nameUser : userName.value, 
         emailUser : userMail.value, 
         passUser : userPass.value}
 
-    bancoDeUsuarios[dadosUsuario.emailUser] = dadosUsuario
+    bancoDeUsuarios[userMail.value] = dadosUsuario    
 
+    let msg = "Usuário cadastrado!"
     setTimeout(() => {   
         userName.value = ""
         userName.style.border = "none"
@@ -260,9 +258,8 @@ document.getElementById("cadastrar").onclick = function(e) {
         userPass.style.border = "none"
         userValidPass.value = ""
         userValidPass.style.border = "none"
+        alertaDeSucesso(msg)
     }, 1000)
-
-
 
     return true
 }
@@ -299,6 +296,18 @@ document.getElementById("login").onclick = function(e) {
         mostrarAlerta(msg)
         return false;
     }
+
+    let dadosUsuario = bancoDeUsuarios[loginEmail.value]
+    console.log(dadosUsuario)
+
+    if (dadosUsuario != null && dadosUsuario.passUser == loginPass.value) {
+        let msg = "Usuário encontrado"
+        alertaDeSucesso(msg)
+    }else {
+        let msg = "E-mail e/ou senha incorretos!"
+        alertaDeErro(msg)
+    }
+
 }
 
 
@@ -322,6 +331,7 @@ function alertaDeErro(msg) {
     //O alerta será vermelho
     msgAlert.innerHTML = msg
         alertaPersonalizado.classList.remove('hide')
+        alertaPersonalizado.classList.add('warningAlert')
         alertaPersonalizado.classList.add('show')
         alertaPersonalizado.classList.add('showAlert')
         setTimeout( () => {
@@ -331,5 +341,21 @@ function alertaDeErro(msg) {
         closeIcon.addEventListener('click', () => {
             alertaPersonalizado.classList.add('hide')
             alertaPersonalizado.classList.remove('showAlert')
-        })   
+        }) 
+}
+
+function alertaDeSucesso(msg) {
+    msgAlert.innerHTML = msg
+        alertaPersonalizado.classList.remove('hide')
+        alertaPersonalizado.classList.add('successAlert')
+        alertaPersonalizado.classList.add('show')
+        alertaPersonalizado.classList.add('showAlert')
+        setTimeout( () => {
+            alertaPersonalizado.classList.add('hide')
+            alertaPersonalizado.classList.remove('showAlert')
+        }, 3000)
+        closeIcon.addEventListener('click', () => {
+            alertaPersonalizado.classList.add('hide')
+            alertaPersonalizado.classList.remove('showAlert')
+        })
 }
