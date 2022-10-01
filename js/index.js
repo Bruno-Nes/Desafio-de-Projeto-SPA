@@ -285,9 +285,7 @@ document.getElementById("login").onclick = function(e) {
 
     let dadosUsuario = bancoDeUsuarios[loginEmail.value]
 
-    const { passUser } = dadosUsuario
-
-    if (dadosUsuario != null && passUser == loginPass.value) {
+    if (dadosUsuario != null && dadosUsuario.passUser == loginPass.value) {
         alertaDeSucesso("Usuário encontrado")
     }else {
         alertaDeErro("E-mail e/ou senha incorretos!")
