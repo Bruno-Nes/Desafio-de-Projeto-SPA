@@ -119,56 +119,50 @@ userPass.onkeyup = function() {
     // Onde peguei o código
     //https://www.w3schools.com/howto/howto_js_password_validation.asp
     let lowerCaseLetters = /[a-z]/g;
+    letter.classList.remove("valid");
+    letter.classList.add("invalid");
+    document.getElementById("circleLetter").style.fill = "red"
     if(userPass.value.match(lowerCaseLetters)) {
         letter.classList.remove("invalid");
         letter.classList.add("valid");
         document.getElementById("circleLetter").style.fill = "#04AA6D"
-    } else {
-        letter.classList.remove("valid");
-        letter.classList.add("invalid");
-        document.getElementById("circleLetter").style.fill = "red"
     }
 
     let upperCaseLetters = /[A-Z]/g;
+    capital.classList.remove("valid");
+    capital.classList.add("invalid");
+    document.getElementById("circleCapital").style.fill = "red"
     if(userPass.value.match(upperCaseLetters)) {
         capital.classList.remove("invalid");
         capital.classList.add("valid");
         document.getElementById("circleCapital").style.fill = "#04AA6D"
-    } else {
-        capital.classList.remove("valid");
-        capital.classList.add("invalid");
-        document.getElementById("circleCapital").style.fill = "red"
-    }
+    } 
 
     let numbers = /[0-9]/g;
+    number.classList.remove("valid");
+    number.classList.add("invalid");
+    document.getElementById("circleNumber").style.fill = "red"
     if(userPass.value.match(numbers)) {
         number.classList.remove("invalid");
         number.classList.add("valid");
         document.getElementById("circleNumber").style.fill = "#04AA6D"
-    } else {
-        number.classList.remove("valid");
-        number.classList.add("invalid");
-        document.getElementById("circleNumber").style.fill = "red"
     }
+    length.classList.remove("valid");
+    length.classList.add("invalid");
+    document.getElementById("circleLength").style.fill = "red" 
     if(userPass.value.length >= 8) {
         length.classList.remove("invalid");
         length.classList.add("valid");
         document.getElementById("circleLength").style.fill = "#04AA6D"
-    } else {
-        length.classList.remove("valid");
-        length.classList.add("invalid");
-        document.getElementById("circleLength").style.fill = "red"
-    }
-
+    } 
+    characters.classList.remove("valid")
+    characters.classList.add("invalid")
+    document.getElementById("circleCharters").style.fill = "red"
     if(userPass.value.match(/\w[!\@\$\#]/)) {
         characters.classList.remove("invalid")
         characters.classList.add("valid")
         document.getElementById("circleCharters").style.fill = "#04AA6D"
-    } else {
-        characters.classList.remove("valid")
-        characters.classList.add("invalid")
-        document.getElementById("circleCharters").style.fill = "red"
-    }
+    } 
 
 }
 
@@ -206,35 +200,30 @@ document.getElementById("cadastrar").onclick = function(e) {
     e.preventDefault();
 
     if(!userName.value || userName.value == undefined) {
-        let msg = "O campo de usuário deve ser preenchido" 
-        mostrarAlerta(msg)
+        mostrarAlerta("O campo de usuário deve ser preenchido")
         return false;
     }
 
     // Verifica se o campo de e-mail foi preenchido
-    if (!userMail.value) {
-        let msg = "O campo e-mail deve ser preenchido!" 
-        mostrarAlerta(msg)
+    if (!userMail.value) { 
+        mostrarAlerta("O campo e-mail deve ser preenchido!")
         return false;
     } 
 
     //validação de e-mail
-    if (!userMail.value.match(regexEmail)) {
-        let msg = "E-mail inválido" 
-        mostrarAlerta(msg)
+    if (!userMail.value.match(regexEmail)) { 
+        mostrarAlerta("E-mail inválido")
         return false
     } 
 
     // Verifica se o campo de senha foi preenchido
     if(!userPass.value) {
-        let msg = "O campo senha deve ser preenchido"
-        mostrarAlerta(msg) 
+        mostrarAlerta("O campo senha deve ser preenchido") 
         return false;
     }
 
     if(!userValidPass.value) {
-        let msg = "O campo confirmar senha deve ser preenchido"
-        mostrarAlerta(msg)
+        mostrarAlerta("O campo confirmar senha deve ser preenchido")
         return false;
     }
 
@@ -246,9 +235,10 @@ document.getElementById("cadastrar").onclick = function(e) {
         emailUser : userMail.value, 
         passUser : userPass.value}
 
-    bancoDeUsuarios[userMail.value] = dadosUsuario    
 
-    let msg = "Usuário cadastrado!"
+    bancoDeUsuarios[userMail.value] = dadosUsuario  
+
+
     setTimeout(() => {   
         userName.value = ""
         userName.style.border = "none"
@@ -258,7 +248,7 @@ document.getElementById("cadastrar").onclick = function(e) {
         userPass.style.border = "none"
         userValidPass.value = ""
         userValidPass.style.border = "none"
-        alertaDeSucesso(msg)
+        alertaDeSucesso("Usuário cadastrado!")
     }, 1000)
 
     return true
@@ -284,28 +274,23 @@ document.getElementById("sair_esqueceu_senha").onclick =  function() {
 document.getElementById("login").onclick = function(e) {
     e.preventDefault();
 
-    // Verifica se o campo de e-mail foi preenchido
     if (!document.getElementById("e-mail_login").value) {
-        let msg = "O campo e-mail deve ser preenchido!"
-        mostrarAlerta(msg)
+        mostrarAlerta("O campo e-mail deve ser preenchido!")
         return false;
     } 
-    // Verifica se o campo de senha foi preenchido
     if(!document.getElementById("senha_login").value) {
-        let msg = "O campo senha deve ser preenchido"
-        mostrarAlerta(msg)
+        mostrarAlerta("O campo senha deve ser preenchido")
         return false;
     }
 
     let dadosUsuario = bancoDeUsuarios[loginEmail.value]
-    console.log(dadosUsuario)
 
-    if (dadosUsuario != null && dadosUsuario.passUser == loginPass.value) {
-        let msg = "Usuário encontrado"
-        alertaDeSucesso(msg)
+    const { passUser } = dadosUsuario
+
+    if (dadosUsuario != null && passUser == loginPass.value) {
+        alertaDeSucesso("Usuário encontrado")
     }else {
-        let msg = "E-mail e/ou senha incorretos!"
-        alertaDeErro(msg)
+        alertaDeErro("E-mail e/ou senha incorretos!")
     }
 
 }
@@ -315,6 +300,8 @@ document.getElementById("login").onclick = function(e) {
 function mostrarAlerta(msg) {
     msgAlert.innerHTML = msg
         alertaPersonalizado.classList.remove('hide')
+        alertaPersonalizado.classList.remove('successAlert')
+        alertaPersonalizado.classList.remove('warningAlert')
         alertaPersonalizado.classList.add('show')
         alertaPersonalizado.classList.add('showAlert')
         setTimeout( () => {
@@ -328,9 +315,9 @@ function mostrarAlerta(msg) {
 }
 
 function alertaDeErro(msg) {
-    //O alerta será vermelho
     msgAlert.innerHTML = msg
         alertaPersonalizado.classList.remove('hide')
+        alertaPersonalizado.classList.remove('successAlert')
         alertaPersonalizado.classList.add('warningAlert')
         alertaPersonalizado.classList.add('show')
         alertaPersonalizado.classList.add('showAlert')
@@ -347,6 +334,7 @@ function alertaDeErro(msg) {
 function alertaDeSucesso(msg) {
     msgAlert.innerHTML = msg
         alertaPersonalizado.classList.remove('hide')
+        alertaPersonalizado.classList.remove('warningAlert')
         alertaPersonalizado.classList.add('successAlert')
         alertaPersonalizado.classList.add('show')
         alertaPersonalizado.classList.add('showAlert')
