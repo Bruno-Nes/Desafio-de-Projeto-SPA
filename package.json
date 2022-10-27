@@ -1,0 +1,21 @@
+{
+  "name": "desafio-de-projeto-spa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bruno-Nes/Desafio-de-Projeto-SPA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bruno-Nes/Desafio-de-Projeto-SPA/issues"
+  },
+  "homepage": "https://github.com/Bruno-Nes/Desafio-de-Projeto-SPA#readme"
+}
