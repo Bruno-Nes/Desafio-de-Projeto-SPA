@@ -13,39 +13,50 @@ body {
 #dashboard_usuario{
     width: 100vw;
     height: 100vh;    
-    margin-top: 32px;
     position: absolute;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: top ;   
 }
 
-#dashboard_usuario > div{
+#dashboard_usuario > div {
     background: #E8F9FD;
-    border-radius: 24px;
-    width: 40vw;
-    height: 30vh;
-    right: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 12px 32px 32px 32px;
+    width: 22vw;
+    height: 100vh;
     box-shadow: 0px 25px 40px #79DAE8;
+    position: relative;
 }
 
-#dashboard_usuario > div > h2{
+#dashboard_usuario > div > .show-perfil{
+    right: 50%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: top;
+    flex-direction: column;
+    padding: 12px 32px 32px 32px;
+}
+
+#dashboard_usuario > div > .show-perfil > h2{
     font-size: 1.8rem;
     margin-bottom: 4px;
     color: #2155CD;
 }
 
-#dashboard_usuario > div > span{
+#dashboard_usuario > div > .show-perfil > span{
     font-size: 0.9rem;
 }
 
-#dashboard_usuario > div > span:nth-last-child(1){
+#dashboard_usuario > div > .show-perfil > span:nth-last-child(1){
     font-size: 0.9rem;
+}
+
+.dash-footer {
+    position: absolute;
+    width: 22vw;
+    bottom: 0;
+    display: flex;
+    padding: 0 6% 4% 0;
+    justify-content: flex-end;
 }
 
 .div-principal {
@@ -175,12 +186,12 @@ header .msg{
 }
 
 .campo-de-texto .esq-pass {
-    font-size: 9pt;
+    font-size: 7pt;
 }
 
 .esq-pass {
     position: absolute;
-    bottom: -45%;
+    bottom: -24%;
 }
 
 .campo-de-texto > input > #senha_cadastro {
@@ -258,6 +269,10 @@ header .msg{
     border-radius: 10px;
 }
 
+#alerta-log-erro, #alerta-log-sucesso{
+    margin: 20px 0 -14px 0;
+}
+
 form button {
     transition: transform .3s;
 }
@@ -281,11 +296,19 @@ form button:hover {
 }
 
 .btn-remover-usuario {
-    width: 16%;
-    height: 21%;
+    width: 60%;
+    height: 90%;
+    border-radius: 24px;
+    color: #E8F9FD;
     background-color: rgb(224, 0, 0);
     padding: 3px;
     font-size: 0.7rem;
+    font-family: inherit;
+    font-weight: 800;
+    padding: 4%;
+    cursor: pointer;
+    outline: none;
+    border: none;
 }
 
 .square{

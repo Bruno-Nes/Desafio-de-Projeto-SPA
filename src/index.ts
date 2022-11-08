@@ -1,21 +1,23 @@
-import { User,  IBancoUsuarios, BancoUsuariosFactory} from "./cadastro.js";
-//Expressão regular para validadr o e-mail
-const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+import { mostrarAlerta } from "./views/alerta.js";
+import { cadastrarUsuario } from "./service/CadastrarService.js";
+import { User,  IBancoUsuarios, BancoUsuariosFactory} from "./model/cadastro.js";
+import { logarUsuario } from "./service/LogarService.js";
+import { verificarSenha } from "./views/verificapass.js";
 
-//Alerta
-const alertaPersonalizado = document.querySelector<HTMLDivElement>('#alertId');
-const msgAlert = document.querySelector('#msg');
-const closeIcon = document.querySelector('.close-btn'); 
+//Expressão regular para validadr o e-mail
+const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
+
+export const divLateral = document.querySelector<HTMLElement>(".div-esquerda");
 
 //Cartao do login
-const login = document.getElementById("cartao_login") as HTMLDivElement || null;
+const login = document.querySelector<HTMLDivElement>("#cartao_login");
 
 //Inputs de login 
 const loginEmail = document.querySelector<HTMLInputElement>("#e-mail_login");
 const loginPass = document.querySelector<HTMLInputElement>("#senha_login");
 
 //Cartão do cadastro
-const cadastro = document.getElementById("cartao_cadastro");
+const cadastro = document.querySelector<HTMLDivElement>("#cartao_cadastro");
 
 //Input do nome do usuário e label 
 const userName = document.querySelector<HTMLInputElement>("#nome_cadastro");
@@ -43,8 +45,8 @@ const btnPassViewCad = document.querySelector("#verSenha");
 const btnPassViewCadConf = document.querySelector("#verConfirmarSenha");
 
 //Input da senha do usuário
-const userPass = document.querySelector<HTMLInputElement>("#senha_cadastro");
-const spanPass = document.querySelector("#status-pass")
+export const userPass = document.querySelector<HTMLInputElement>("#senha_cadastro");
+export const spanPass = document.querySelector("#status-pass");
 
 // criar as variaveis para senha(input) e label da senha
 const userValidPass = document.querySelector<HTMLInputElement>("#confirma_senha_cadastro");
@@ -55,12 +57,6 @@ const spanUserValidPass = document.getElementById("status-confirmar-senha");
 const square = document.querySelector(".square")
 const message = document.querySelector<HTMLElement>("#message");
 
-const letter = document.getElementById("letter");
-const capital = document.getElementById("capital");
-const number = document.getElementById("number");
-const length = document.getElementById("length");
-const characters = document.getElementById("charters");
-
 const esqueceuSenha = document.getElementById("esqueceuSenha") as HTMLDivElement | null ;
 const esqueceuSenhaPage = document.querySelector<HTMLElement>(".esqueceu-senha")
 
@@ -68,8 +64,7 @@ const esqueceuSenhaPage = document.querySelector<HTMLElement>(".esqueceu-senha")
 const dashboard = document.querySelector<HTMLElement>("#dashboard_usuario")
 const btnRemoverUsuario = document.querySelector<HTMLButtonElement>("#btn-remover-usuario")
 
-let bancoUsuarios : IBancoUsuarios = new BancoUsuariosFactory().create();
-// let bancoDeUsuarios: IBancoUsers 
+export let bancoUsuarios : IBancoUsuarios = new BancoUsuariosFactory().create();
 
 //Configuração do botão para ver senha
 btnPassView?.addEventListener('click', () => {
@@ -85,7 +80,6 @@ btnPassView?.addEventListener('click', () => {
         btnPassView?.classList.remove("fa-eye-slash")
     }
 })
-
 
 btnPassViewCad?.addEventListener('click', () => {
 
@@ -128,7 +122,6 @@ userName?.addEventListener('keyup', () => {
     }
 })
 
-
 userMail!.addEventListener('keyup', () => {
     if (!userMail!.value.match(regexEmail)) {
         userMail!.style.border = "2px solid red";
@@ -149,73 +142,8 @@ userPass!.onblur = function() {
     message!.style.display = "none";
 }
 
-userPass!.onkeyup = function() {
-    let count = 0;
-    // Onde peguei o código
-    //https://www.w3schools.com/howto/howto_js_password_validation.asp
-    if (letter != null  && userPass != null) {
-    let lowerCaseLetters = /[a-z]/g;
-    letter.classList.remove("valid");
-    letter.classList.add("invalid");
-    document.querySelector<HTMLElement>("#circleLetter")!.style.fill = "red"
-        if(userPass.value.match(lowerCaseLetters)) {
-            letter.classList.remove("invalid");
-            letter.classList.add("valid");
-            document.querySelector<HTMLElement>("#circleLetter")!.style.fill = "#04AA6D"
-            count++
-        }
-    }
-
-    let upperCaseLetters = /[A-Z]/g;
-    capital!.classList.remove("valid");
-    capital!.classList.add("invalid");
-    document.querySelector<HTMLElement>("#circleCapital")!.style.fill = "red"
-    if(userPass!.value.match(upperCaseLetters)) {
-        capital!.classList.remove("invalid");
-        capital!.classList.add("valid");
-        document.querySelector<HTMLElement>("#circleCapital")!.style.fill = "#04AA6D"
-        count++
-    } 
-
-    let numbers = /[0-9]/g;
-    number!.classList.remove("valid");
-    number!.classList.add("invalid");
-    document.querySelector<HTMLElement>("#circleNumber")!.style.fill = "red"
-    if(userPass!.value.match(numbers)) {
-        number!.classList.remove("invalid");
-        number!.classList.add("valid");
-        document.querySelector<HTMLElement>("#circleNumber")!.style.fill = "#04AA6D"
-        count++
-    }
-    length!.classList.remove("valid");
-    length!.classList.add("invalid");
-    document.querySelector<HTMLElement>("#circleLength")!.style.fill = "red" 
-    if(userPass!.value.length >= 8) {
-        length!.classList.remove("invalid");
-        length!.classList.add("valid");
-        document.querySelector<HTMLElement>("#circleLength")!.style.fill = "#04AA6D"
-        count++
-    } 
-    characters!.classList.remove("valid")
-    characters!.classList.add("invalid")
-    document.querySelector<HTMLElement>("#circleCharters")!.style.fill = "red"
-    if(userPass!.value.match(/\w[!\@\$\#]/)) {
-        characters!.classList.remove("invalid")
-        characters!.classList.add("valid")
-        document.querySelector<HTMLElement>("#circleCharters")!.style.fill = "#04AA6D"
-        count++
-    } 
-    
-    if (count >= 5) {
-        userPass!.style.borderColor = "green"
-        spanPass!.innerHTML = ""
-    }else {
-        userPass!.style.borderColor = "red"
-        spanPass!.innerHTML = "<strong>O campo senha deve ser preenchido</strong>"
-        spanPass!.querySelector("strong")!.style.color = "red";
-
-    }
-
+userPass!.onkeyup = function () {
+    verificarSenha(userPass!);
 }
 
 if(userValidPass != null) {
@@ -250,12 +178,10 @@ document.getElementById("mudar_para_cadastro")!.onclick = function() {
     login.style.display = "none";
     }
 }
-
-//Area comentada temporariamente para finalizar os requisitos de senha 
+ 
 // Campo cadastro
 document.querySelector<HTMLButtonElement>("#cadastrar")!.onclick = function(e) {
     e.preventDefault();
-
     if(!userName!.value || userName!.value == undefined) {
         spanName!.innerHTML = "<strong>O campo de usuário deve ser preenchido</strong>"
         spanName!.querySelector("strong")!.style.color = "red" 
@@ -264,8 +190,6 @@ document.querySelector<HTMLButtonElement>("#cadastrar")!.onclick = function(e) {
         userName!.style.borderColor = "red"
         return false;
     }
-
-    // Verifica se o campo de e-mail foi preenchido
     if (!userMail!.value) { 
         spanMail!.innerHTML = "<strong>O campo e-mail deve ser preenchido!</strong>"
         spanMail!.querySelector("strong")!.style.color = "red";
@@ -273,8 +197,6 @@ document.querySelector<HTMLButtonElement>("#cadastrar")!.onclick = function(e) {
         userMail!.style.borderColor = "red"
         return false;
     } 
-
-    //validação de e-mail
     if (!userMail!.value.match(regexEmail)) { 
         spanMail!.innerHTML = "<strong>E-mail inválido</strong>"
         spanMail!.style.color = "red"
@@ -282,15 +204,12 @@ document.querySelector<HTMLButtonElement>("#cadastrar")!.onclick = function(e) {
         userMail!.style.borderColor = "red"
         return false
     } 
-
-    // Verifica se o campo de senha foi preenchido
     if(!userPass!.value) {
         spanPass!.innerHTML = "<strong>O campo senha deve ser preenchido</strong>"
         mostrarAlerta("O campo senha deve ser preenchido") 
         userPass!.style.borderColor = "red"
         return false;
     }
-
     if(!userValidPass!.value) {
         spanUserValidPass!.innerHTML = "<strong>O campo confirmar senha deve ser preenchido</strong>"
         spanUserValidPass!.querySelector("strong")!.style.color = "red";
@@ -298,7 +217,6 @@ document.querySelector<HTMLButtonElement>("#cadastrar")!.onclick = function(e) {
         userValidPass!.style.borderColor = "red"
         return false;
     }
-
     if (userValidPass!.value != userPass!.value) {
         spanUserValidPass!.innerHTML = "<strong>As senhas não estão iguais</strong>"
         spanUserValidPass!.querySelector("strong")!.style.color = "red";
@@ -312,66 +230,11 @@ document.querySelector<HTMLButtonElement>("#cadastrar")!.onclick = function(e) {
         passUser : userPass!.value
     } as User;
 
-    if(bancoUsuarios.verificarUsuario(dadosUsuario.emailUser)) {
-        userMail!.style.borderColor = "red"
-        userName!.style.border = "none"
-        userValidPass!.style.border = "none"
-        msgErroCad!.innerHTML = '<span>O email ja foi cadastrado!</span>'
-        msgErroCad!.style.display = "block"    
-        msgSucessoCad!.innerHTML = ""
-        msgSucessoCad!.style.display = "none"
-        return false
-    } else {
-            bancoUsuarios.cadastroUsuario(dadosUsuario)
-            msgSucessoCad!.innerHTML = '<span>Usuario cadastrado com sucesso</span>'
-            msgSucessoCad!.style.display= "block"
-            msgErroCad!.style.display = "none" 
-            setTimeout(() => {   
-                userName!.value = ""
-                userName!.style.border = "none"
-                userMail!.value = ""
-                userMail!.style.border = "none"
-                userPass!.value = ""
-                userPass!.style.border = "none"
-                userValidPass!.value = ""
-                userValidPass!.style.border = "none"                    
-            }, 1000)
+    cadastrarUsuario(dadosUsuario)
 
-            setTimeout(() => {
-                //depois de fazer o cadastro o usuáro será direcionado para a dashboard, com as informações de
-                //cadastro
-                msgSucessoCad!.style.display = "none"
-                cadastro!.style.display = "none";
-                login.style.display = "none";
-                document.querySelector<HTMLElement>(".div-esquerda")!.style.display = "none";
-                dashboard!.style.display = "flex"
-                dashboard!.innerHTML = `
-                <div>
-                <h2 class="msg-nome-dash">Olá, ${dadosUsuario!['nameUser']}</h2>
-                <span class="msg-email-dash">${dadosUsuario!['emailUser']}</span>
-                <span>Voltar para o <a href="#" id="sair_dashboard">Cadastro</a></span>   
-                <button id="btn-remover-usuario" class="btn-submit btn-remover-usuario">Remover Usuário</button>
-                </div>
-                `
-                btnRemoverUsuario?.classList.add("btn-submit")
-                btnRemoverUsuario?.classList.add("btn-remover-usuario")
-                dashboard!.style.animation = "fromTop .6s 0.1s backwards"
-                document.querySelector<HTMLElement>('#sair_dashboard')!.onclick = function() {
-                    cadastro!.style.animation = "fromTop .6s 0.1s backwards"
-                    cadastro!.style.display = "flex"
-                    document.querySelector<HTMLElement>(".div-esquerda")!.style.display = "flex";
-                    login.style.display = "none";
-                    dashboard!.style.display = "none";
-                }
-                
-            }, 3000)   
-
-            return true
-        }
 }
 
 // Campo cadastro finalizada
-
 //Campo login
 
 esqueceuSenha!.onclick = function() {
@@ -407,117 +270,5 @@ document.getElementById("login")!.onclick = function(e) {
         return false;
     }
 
-    // login do usuario
-
-    let dadosUsuario = bancoUsuarios.recuperarUsuario(loginEmail!.value)
-
-    if (dadosUsuario && dadosUsuario.passUser == loginPass.value) {
-        alertaDeSucesso("Usuário encontrado")
-        msgSucessoLog!.style.display = "block"
-        msgSucessoLog!.innerHTML = "<strong>Usuário encontrado</strong>"
-        msgErroLog!.style.display = "none"
-        msgErroLog!.innerHTML = ""
-    }else {
-        alertaDeErro("E-mail e/ou senha incorretos!")
-        loginEmail.style.borderColor = "red"
-        loginPass.style.borderColor = "red"
-        msgSucessoLog!.style.display = "none"
-        msgSucessoLog!.innerHTML = ""
-        msgErroLog!.style.display = "block"
-        msgErroLog!.innerHTML = "<strong>E-mail e/ou senha incorretos!</strong>"
-        return false;
-    }
-
-    setTimeout(()=>{
-        loginEmail.value = ""
-        loginPass.value = ""
-        loginEmail.style.border = "none"
-        loginPass.style.border = "none"
-        msgSucessoLog!.style.display = "none"
-        msgErroLog!.style.display = "none"
-    },450)
-
-    setTimeout(() => {
-        cadastro!.style.display = "none";
-            login.style.display = "none";
-            document.querySelector<HTMLElement>(".div-esquerda")!.style.display = "none";
-            dashboard!.style.display = "flex"
-            dashboard!.innerHTML = `
-            <div>
-            <h2 class="msg-nome-dash">Bem vindo de volta, ${dadosUsuario['nameUser']}</h2>
-            <span class="msg-email-dash">${dadosUsuario['emailUser']}</span>
-            <span>Voltar para o <a href="#" id="sair_dashboard">Login</a></span>
-        </div>
-            `
-            dashboard!.style.animation = "fromTop .6s 0.1s backwards"
-            document.querySelector<HTMLElement>('#sair_dashboard')!.onclick = function() {
-                cadastro!.style.animation = "fromTop .6s 0.1s backwards"
-                cadastro!.style.display = "none"
-                document.querySelector<HTMLElement>(".div-esquerda")!.style.display = "flex";
-                login!.style.display = "flex";
-                dashboard!.style.display = "none";
-            }
-    }, 1000)
+    logarUsuario(bancoUsuarios);
 }
-
-
-
-// Funções 
-function mostrarAlerta(msg:string): void {
-    msgAlert!.innerHTML = msg
-    if(alertaPersonalizado != null ) {
-        alertaPersonalizado.classList.remove('hide')
-        alertaPersonalizado.classList.remove('successAlert')
-        alertaPersonalizado.classList.remove('warningAlert')
-        alertaPersonalizado.classList.add('show')
-        alertaPersonalizado.classList.add('showAlert')
-    
-        setTimeout( () => {
-            alertaPersonalizado.classList.add('hide')
-            alertaPersonalizado.classList.remove('showAlert')
-        }, 3000)
-        closeIcon!.addEventListener('click', () => {
-            alertaPersonalizado.classList.add('hide')
-            alertaPersonalizado.classList.remove('showAlert')
-        })
-    }
-}
-
-function alertaDeErro(msg:string): void {
-    msgAlert!.innerHTML = msg
-    if(alertaPersonalizado != null) {
-        alertaPersonalizado.classList.remove('hide')
-        alertaPersonalizado.classList.remove('successAlert')
-        alertaPersonalizado.classList.add('warningAlert')
-        alertaPersonalizado.classList.add('show')
-        alertaPersonalizado.classList.add('showAlert')
-        setTimeout( () => {
-            alertaPersonalizado.classList.add('hide')
-            alertaPersonalizado.classList.remove('showAlert')
-        }, 3000)
-        closeIcon!.addEventListener('click', () => {
-            alertaPersonalizado.classList.add('hide')
-            alertaPersonalizado.classList.remove('showAlert')
-        }) 
-    }
-}
-
-function alertaDeSucesso(msg:string): void {
-    msgAlert!.innerHTML = msg
-    if(alertaPersonalizado != null) {
-        alertaPersonalizado.classList.remove('hide')
-        alertaPersonalizado.classList.remove('warningAlert')
-        alertaPersonalizado.classList.add('successAlert')
-        alertaPersonalizado.classList.add('show')
-        alertaPersonalizado.classList.add('showAlert')
-        setTimeout( () => {
-            alertaPersonalizado.classList.add('hide')
-            alertaPersonalizado.classList.remove('showAlert')
-        }, 3000)
-        closeIcon!.addEventListener('click', () => {
-            alertaPersonalizado.classList.add('hide')
-            alertaPersonalizado.classList.remove('showAlert')
-        })
-    }
-}
-
