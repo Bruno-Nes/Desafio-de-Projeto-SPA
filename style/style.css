@@ -191,7 +191,8 @@ header .msg{
 
 .esq-pass {
     position: absolute;
-    bottom: -24%;
+    bottom: -42%;
+    margin-bottom: 12px;
 }
 
 .campo-de-texto > input > #senha_cadastro {
@@ -253,19 +254,25 @@ header .msg{
 
 #alerta-log-erro, #alerta-cad-error{
     display: none;  
+    position: relative;
+    bottom: -8px;
     background-color: rgb(224, 0, 0);
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
+    color: #E8F9FD;
     border-radius: 10px;
 }
 
 #alerta-cad-sucesso, #alerta-log-sucesso{
-    display: none;  
+    display: none;
+    position: relative;
+    bottom: -8px;  
     background-color: #04AA6D;
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
+    color: #E8F9FD;
     border-radius: 10px;
 }
 
@@ -287,6 +294,7 @@ form button:hover {
     background-color: #2155CD;
     border-radius: 10px;
     padding: 16px 0px;
+    margin-top: 10px;
     margin: 25px;
     outline: none;
     border: none;

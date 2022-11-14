@@ -1,5 +1,5 @@
-import { cadastrarUsuario } from "../service/CadastrarService.js";
-import { BancoUsuariosMap, IBancoUsuarios, User } from "../model/cadastro.js";
+import { IBancoUsuarios, User } from "../model/cadastro.js";
+import { mostrarAlerta } from "./alerta.js";
 
 export class DashboardView {
 
@@ -16,7 +16,7 @@ export class DashboardView {
     public removerUsuario(element: HTMLButtonElement) {
         element.addEventListener('click', () => {
             this.bancoUsuarios.removerUsuario(this.user);
-            console.log('usuario remolvido')
+            mostrarAlerta("usuario removido");
         })
     }
     

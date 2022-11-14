@@ -1,10 +1,9 @@
-import { bancoUsuarios, divLateral } from "../index.js";
-import { User,  IBancoUsuarios, BancoUsuariosFactory} from "../model/cadastro.js";
+import { divLateral } from "../index.js";
+import { BancoUsuariosFactory, IBancoUsuarios, User } from "../model/cadastro.js";
 import { DashboardView } from "../views/DashboardView.js";
 import { login } from "./LogarService.js";
 const userName = document.querySelector<HTMLInputElement>("#nome_cadastro");
 const userMail = document.querySelector<HTMLInputElement>("#e-mail_cadastro");
-const userPass = document.querySelector<HTMLInputElement>("#senha_cadastro");
 const userValidPass = document.querySelector<HTMLInputElement>("#confirma_senha_cadastro");
 
 // mensagens
@@ -16,7 +15,7 @@ export const cadastro = document.querySelector<HTMLDivElement>("#cartao_cadastro
 
 //Configuração da dashboard
 export const dashboard = document.querySelector<HTMLElement>("#dashboard_usuario")
-const btnRemoverUsuario = document.querySelector<HTMLButtonElement>("#btn-remover-usuario")
+export const bancoUsuarios = new BancoUsuariosFactory().create();
 
 
 export function cadastrarUsuario(user : User) { 
@@ -35,15 +34,7 @@ export function cadastrarUsuario(user : User) {
     } else {
             bancoUsuarios.cadastroUsuario(user)
             msgErroCad!.style.display = "none" 
-            setTimeout(() => {   
-                userName!.value = ""
-                userName!.style.border = "none"
-                userMail!.value = ""
-                userMail!.style.border = "none"
-                userPass!.value = ""
-                userPass!.style.border = "none"
-                userValidPass!.value = ""
-                userValidPass!.style.border = "none"                    
+            setTimeout(() => {                       
                 msgSucessoCad!.style.display = "none"
                 cadastro!.style.display = "none";
                 document.querySelector<HTMLElement>(".div-esquerda")!.style.display = "none";

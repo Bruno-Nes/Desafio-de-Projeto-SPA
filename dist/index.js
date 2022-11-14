@@ -1,19 +1,10 @@
-import { mostrarAlerta } from "./views/alerta.js";
-import { cadastrarUsuario } from "./service/CadastrarService.js";
-import { BancoUsuariosFactory } from "./model/cadastro.js";
-import { logarUsuario } from "./service/LogarService.js";
 import { verificarSenha } from "./views/verificapass.js";
-const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+import { CadastroController } from "./controllers/CadastroController.js";
+import { LoginController } from "./controllers/LoginController.js";
 export const divLateral = document.querySelector(".div-esquerda");
 const login = document.querySelector("#cartao_login");
-const loginEmail = document.querySelector("#e-mail_login");
-const loginPass = document.querySelector("#senha_login");
 const cadastro = document.querySelector("#cartao_cadastro");
-const userName = document.querySelector("#nome_cadastro");
-const userLabel = document.getElementById("user_label");
 const spanName = document.getElementById("status-nome");
-const userMail = document.querySelector("#e-mail_cadastro");
-const emailLabel = document.getElementById("label_Email");
 const spanMail = document.getElementById("status-email");
 const msgSucessoCad = document.querySelector('#alerta-cad-sucesso');
 const msgErroCad = document.querySelector('#alerta-cad-error');
@@ -24,18 +15,18 @@ const spanPassLog = document.querySelector('#status-log-senha');
 const btnPassView = document.querySelector(".fa-eye");
 const btnPassViewCad = document.querySelector("#verSenha");
 const btnPassViewCadConf = document.querySelector("#verConfirmarSenha");
-export const userPass = document.querySelector("#senha_cadastro");
 export const spanPass = document.querySelector("#status-pass");
-const userValidPass = document.querySelector("#confirma_senha_cadastro");
 const userValidPassLabel = document.getElementById("confirma_senha_cadastro_label");
 const spanUserValidPass = document.getElementById("status-confirmar-senha");
-const square = document.querySelector(".square");
 const message = document.querySelector("#message");
 const esqueceuSenha = document.getElementById("esqueceuSenha");
 const esqueceuSenhaPage = document.querySelector(".esqueceu-senha");
-const dashboard = document.querySelector("#dashboard_usuario");
-const btnRemoverUsuario = document.querySelector("#btn-remover-usuario");
-export let bancoUsuarios = new BancoUsuariosFactory().create();
+export const cadastroController = new CadastroController();
+const loginController = new LoginController();
+const userName = cadastroController.getInputNome();
+const userMail = cadastroController.getInputEmail();
+const userPass = cadastroController.getInputPass();
+const userValidPass = cadastroController.getInputValidaSenha();
 btnPassView === null || btnPassView === void 0 ? void 0 : btnPassView.addEventListener('click', () => {
     let inputSenha = document.querySelector('.input-senha');
     if ((inputSenha === null || inputSenha === void 0 ? void 0 : inputSenha.getAttribute('type')) == 'password') {
@@ -89,7 +80,7 @@ userName === null || userName === void 0 ? void 0 : userName.addEventListener('k
     }
 });
 userMail.addEventListener('keyup', () => {
-    if (!userMail.value.match(regexEmail)) {
+    if (!userMail.value.match(cadastroController.regexEmail)) {
         userMail.style.border = "2px solid red";
         spanMail.innerHTML = "<strong>Parece que você está esquecendo de algo!</strong>";
         spanMail.querySelector("strong").style.color = "red";
@@ -107,7 +98,7 @@ userPass.onblur = function () {
     message.style.display = "none";
 };
 userPass.onkeyup = function () {
-    verificarSenha(userPass);
+    verificarSenha(cadastroController.getInputPass(), spanPass);
 };
 if (userValidPass != null) {
     userValidPass.addEventListener('keyup', () => {
@@ -142,53 +133,18 @@ document.getElementById("mudar_para_cadastro").onclick = function () {
 };
 document.querySelector("#cadastrar").onclick = function (e) {
     e.preventDefault();
-    if (!userName.value || userName.value == undefined) {
-        spanName.innerHTML = "<strong>O campo de usuário deve ser preenchido</strong>";
-        spanName.querySelector("strong").style.color = "red";
-        spanName.style.color = "red";
-        mostrarAlerta("O campo de usuário deve ser preenchido");
-        userName.style.borderColor = "red";
+    if (cadastroController.validaCampos(spanName, spanMail, spanPass, spanUserValidPass)) {
+        cadastroController.entrarUsuario();
+        cadastroController.limparCampos();
+        msgErroCad.style.display = "none";
+        return true;
+    }
+    else {
+        msgSucessoCad.style.display = "none";
+        msgErroCad.style.display = "flex";
+        msgErroCad.innerHTML = `Não foi possível fazer o cadastro`;
         return false;
     }
-    if (!userMail.value) {
-        spanMail.innerHTML = "<strong>O campo e-mail deve ser preenchido!</strong>";
-        spanMail.querySelector("strong").style.color = "red";
-        mostrarAlerta("O campo e-mail deve ser preenchido!");
-        userMail.style.borderColor = "red";
-        return false;
-    }
-    if (!userMail.value.match(regexEmail)) {
-        spanMail.innerHTML = "<strong>E-mail inválido</strong>";
-        spanMail.style.color = "red";
-        mostrarAlerta("E-mail inválido");
-        userMail.style.borderColor = "red";
-        return false;
-    }
-    if (!userPass.value) {
-        spanPass.innerHTML = "<strong>O campo senha deve ser preenchido</strong>";
-        mostrarAlerta("O campo senha deve ser preenchido");
-        userPass.style.borderColor = "red";
-        return false;
-    }
-    if (!userValidPass.value) {
-        spanUserValidPass.innerHTML = "<strong>O campo confirmar senha deve ser preenchido</strong>";
-        spanUserValidPass.querySelector("strong").style.color = "red";
-        mostrarAlerta("O campo confirmar senha deve ser preenchido");
-        userValidPass.style.borderColor = "red";
-        return false;
-    }
-    if (userValidPass.value != userPass.value) {
-        spanUserValidPass.innerHTML = "<strong>As senhas não estão iguais</strong>";
-        spanUserValidPass.querySelector("strong").style.color = "red";
-        userValidPass.style.borderColor = "red";
-        return false;
-    }
-    let dadosUsuario = {
-        nameUser: userName.value,
-        emailUser: userMail.value,
-        passUser: userPass.value
-    };
-    cadastrarUsuario(dadosUsuario);
 };
 esqueceuSenha.onclick = function () {
     if (esqueceuSenhaPage && cadastro && login) {
@@ -206,19 +162,14 @@ document.getElementById("sair_esqueceu_senha").onclick = function () {
 };
 document.getElementById("login").onclick = function (e) {
     e.preventDefault();
-    if (!(loginEmail === null || loginEmail === void 0 ? void 0 : loginEmail.value)) {
-        mostrarAlerta("O campo e-mail deve ser preenchido!");
-        loginEmail.style.borderColor = "red";
-        spanMailLog.innerHTML = "<strong>O campo e-mail deve ser preenchido!</strong>";
-        spanMailLog.querySelector("strong").style.color = "red";
-        return false;
+    if (loginController.validaCampos(spanMailLog, spanPassLog)) {
+        loginController.entrarUsuario();
+        setTimeout(() => {
+            loginController.limparCampos();
+            spanMailLog.innerHTML = "";
+            spanPassLog.innerHTML = "";
+        }, 2000);
+        return true;
     }
-    if (!(loginPass === null || loginPass === void 0 ? void 0 : loginPass.value)) {
-        mostrarAlerta("O campo senha deve ser preenchido");
-        loginPass.style.borderColor = "red";
-        spanPassLog.innerHTML = "<strong>O campo senha deve ser preenchido</strong>";
-        spanPassLog.querySelector("strong").style.color = "red";
-        return false;
-    }
-    logarUsuario(bancoUsuarios);
+    return false;
 };

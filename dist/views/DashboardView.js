@@ -1,3 +1,4 @@
+import { mostrarAlerta } from "./alerta.js";
 export class DashboardView {
     constructor(user, email, bancoUsuarios) {
         this.user = user;
@@ -7,7 +8,7 @@ export class DashboardView {
     removerUsuario(element) {
         element.addEventListener('click', () => {
             this.bancoUsuarios.removerUsuario(this.user);
-            console.log('usuario remolvido');
+            mostrarAlerta("usuario removido");
         });
     }
     carregarDashboard() {
